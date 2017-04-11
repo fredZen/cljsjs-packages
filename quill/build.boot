@@ -5,7 +5,7 @@
 (require '[cljsjs.boot-cljsjs.packaging :refer :all])
 
 (def +lib-version+ "1.1.0")
-(def +version+ (str +lib-version+ "-3"))
+(def +version+ (str +lib-version+ "-4"))
 
 (task-options!
   pom {:project     'cljsjs/quill
@@ -21,11 +21,9 @@
                      :decompress true
                      :archive-format "tar"
                      :compression-format "gz")
-           (sift :move {#".*quill\.js"        "cljsjs/quill/quill.inc.js"
-                        #".*quill\.min\.js"   "cljsjs/quill/quill.min.inc.js"
-                        #".*quill\.core\.js"   "cljsjs/quill/quill.core.inc.js"
-                        #".*quill\.core\.css" "cljsjs/quill/quill.core.css"
-                        #".*dist/quill\.snow\.css" "cljsjs/quill/quill.snow.css"})
+           (sift :move {#".*quill\.js$"             "cljsjs/quill/development/quill.inc.js"
+                        #".*quill\.min\.js$"        "cljsjs/quill/production/quill.min.inc.js"
+                        #".*quill\.([^.]*)\.css$"   "cljsjs/quill/common/quill.$1.inc.css"})
            (sift :include #{#"^cljsjs"})
            (deps-cljs :name "cljsjs.quill")
            (pom)
